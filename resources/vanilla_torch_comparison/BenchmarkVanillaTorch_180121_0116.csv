@@ -1,0 +1,3 @@
+size,run,type,process_time,initial_rss,final_rss
+1000,1,vanilla,34.359375,305967104,331780096
+1000,1,torch,42.125,307998720,318595072
