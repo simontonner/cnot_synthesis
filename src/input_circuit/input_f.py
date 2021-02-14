@@ -4,6 +4,24 @@ import src.input_circuit.input_gen as gen
 import re
 import ast
 
+def generate_input_files(mat_size, input_file_name):
+
+    pid = os.getpid()
+    ps = psutil.Process(pid)
+
+    initial_cpu_times = ps.cpu_times()
+    mat = gen.gen_rand_int_matrix(mat_size)
+    final_cpu_times = ps.cpu_times()
+
+    process_time = final_cpu_times.user + final_cpu_times.system - initial_cpu_times.user - initial_cpu_times.system
+
+    file = open(input_file_name, "w")
+    file.write(f"Matrix size: {mat_size}\n")
+    file.write(f"Generation time (seconds): {process_time}\n")
+    for row in mat:
+        file.write(f"{row}\n")
+    file.close()
+
 def generate_circuit_file(size, input_file_name):
 
     pid = os.getpid()
