@@ -5,13 +5,13 @@ from src.input.integer_matrices import rand_int_matrix
 
 
 
-def write_circuit_file(file_name, size):
+def write_circuit_file(size, num_gates, file_name):
 
     pid = os.getpid()
     ps = psutil.Process(pid)
 
     initial_cpu_times = ps.cpu_times()
-    circuit = rand_circuit(size)
+    circuit = rand_circuit(size, num_gates)
     final_cpu_times = ps.cpu_times()
 
     process_time = final_cpu_times.user + final_cpu_times.system - initial_cpu_times.user - initial_cpu_times.system
@@ -25,7 +25,7 @@ def write_circuit_file(file_name, size):
     file.close()
 
 
-def write_int_matrix_file(file_name, size):
+def write_int_matrix_file(size, file_name):
 
     pid = os.getpid()
     ps = psutil.Process(pid)
