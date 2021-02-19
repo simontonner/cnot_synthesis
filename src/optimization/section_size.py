@@ -30,9 +30,7 @@ def optimal_alpha(size, alpha):
 
 def normal_section_size(size):
 
-    alpha = [0.5] * len(size)
-
-    return alpha * np.log2(size)
+    return 0.5 * np.log2(size)
 
 
 def optimal_section_size(size, alpha):

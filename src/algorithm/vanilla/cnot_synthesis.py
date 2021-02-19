@@ -109,3 +109,7 @@ def lower_triangular_cnot_synthesis(A, n, m):
                          reverse_circuit.append((column_index+1, row_index+1))
 
      return A, reverse_circuit
+
+test_mat = [[1, 1, 1, 1, 0], [0, 1, 1, 1, 0], [0, 0, 1, 1, 1], [0, 1, 0, 1, 1], [0, 1, 0, 0, 0]]
+
+cnot_synthesis(test_mat, 5, 2)

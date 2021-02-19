@@ -1,6 +1,7 @@
 import os
 import psutil
-from src.input.read_files import file_to_matrix
+from src.input.read_files import file_to_circuit, file_to_matrix
+from src.input.circuits_and_matrices import circuit_to_matrix
 
 
 
@@ -91,11 +92,33 @@ def check_and_benchmark(circuit_synthesis, mat, sec_size):
     return mat, circuit, is_non_singular, process_time, initial_rss, final_rss
 
 
-def load_and_benchmark(circuit_synthesis, input_dir, input_file_name, sec_size):
+def load_circuit_and_benchmark(circuit_synthesis, input_dir, input_file_name, sec_size):
 
-    mat, size, run = file_to_matrix(input_dir, input_file_name)
+    print(f'Loading circuit from file {input_file_name} and converting it to matrix ...')
 
-    print(f"Benchmark run {run} ... matrix size: {size}, section size: {sec_size}")
-    _, _, _, process_time, initial_rss, final_rss = check_and_benchmark(circuit_synthesis, mat, sec_size)
+    circuit, size, sample = file_to_circuit(input_dir, input_file_name)
 
-    return size, run, sec_size, process_time, initial_rss, final_rss
+    mat = circuit_to_matrix(circuit, size)
+
+    print(mat)
+
+    print(f'Benchmarking sample {sample} ... matrix size: {size}, section size: {sec_size}')
+    _, circuit, _, process_time, initial_rss, final_rss = check_and_benchmark(circuit_synthesis, mat, sec_size)
+
+    num_gates = len(circuit)
+
+    return size, sample, sec_size, num_gates, process_time, initial_rss, final_rss
+
+
+def load_matrix_and_benchmark(circuit_synthesis, input_dir, input_file_name, sec_size):
+
+    print(f'Loading matrix from file {input_file_name} ...')
+
+    mat, size, sample = file_to_matrix(input_dir, input_file_name)
+
+    print(f'Benchmarking sample {sample} ... matrix size: {size}, section size: {sec_size}')
+    _, circuit, _, process_time, initial_rss, final_rss = check_and_benchmark(circuit_synthesis, mat, sec_size)
+
+    num_gates = len(circuit)
+
+    return size, sample, sec_size, num_gates, process_time, initial_rss, final_rss

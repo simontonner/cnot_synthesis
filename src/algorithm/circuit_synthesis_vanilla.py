@@ -49,7 +49,7 @@ def synthesise_lower_triangular_circuit(mat, size, sec_size):
 
         # index of last section can exceed matrix dimensions
         if (last_sec_idx > size - 1):
-            first_sec_idx = size - 1
+            last_sec_idx = size - 1
 
         ### REMOVE DUPLICATE SUB ROWS IN SECTION (STEP A) ###
 
@@ -109,3 +109,6 @@ def synthesise_lower_triangular_circuit(mat, size, sec_size):
                     reverse_circuit.append((sec_col_idx + 1, row_idx + 1))
 
     return mat, reverse_circuit
+
+
+

@@ -1,5 +1,7 @@
 import os
 import re
+from src.optimization.section_size import normal_section_size
+import numpy as np
 import ast
 from src.input.bitfields import to_bitfield
 import torch
@@ -17,44 +19,60 @@ def find_files(directory, regex):
     return file_names
 
 
+def number_from_text(text, regex):
+
+    matches = re.findall(regex, text)
+
+    if len(matches) > 1:
+        raise ValueError('More than one match for regex.')
+
+    if len(matches) < 1:
+        raise ValueError('No match for regex.')
+
+    number_matches = re.findall(r'\d+', matches[0])
+
+    if len(number_matches) < 1:
+        raise ValueError('Regex does not search for numbers.')
+
+    number = int(number_matches[0])
+
+    return number
+
+
 def numbers_from_file_name(file_name, first_regex, second_regex):
 
-    first_matches = re.findall(first_regex, file_name)
-    second_matches = re.findall(second_regex, file_name)
-
-    if len(second_matches) > 1 or len(second_matches) > 1:
-        raise ValueError('More than one match for one regex.')
-
-    if len(second_matches) < 1 or len(second_matches) < 1:
-        raise ValueError('No match for one regex.')
-
-    first_number_matches = re.findall(r'\d+', first_matches[0])
-    second_number_matches = re.findall(r'\d+', second_matches[0])
-
-    if len(first_number_matches) < 1 or len(second_number_matches) < 1:
-        raise ValueError('One regex does not search for numbers.')
-
-    first_number = int(first_number_matches[0])
-    second_number = int(second_number_matches[0])
+    first_number = number_from_text(file_name, first_regex)
+    second_number = number_from_text(file_name, second_regex)
 
     return first_number, second_number
 
 
+def normal_sec_size_int_from_file_name(file_name, size_regex):
+
+    size = number_from_text(file_name, size_regex)
+
+    sec_size = normal_section_size(size)
+
+    sec_size_int = np.rint(sec_size).astype(int)
+
+    return sec_size_int
+
+
 def file_to_circuit(input_dir, file_name):
 
-    size, run = numbers_from_file_name(file_name, r'_\d+_', r'_\d+\.')
+    size, sample = numbers_from_file_name(file_name, r'_\d+_', r'_\d+\.')
 
     with open(rf"..\{input_dir}\{file_name}", 'r') as input_file:
         lines = input_file.read().splitlines()
 
     circuit = ast.literal_eval(lines[2])
 
-    return circuit, size, run
+    return circuit, size, sample
 
 
 def file_to_matrix(input_dir, file_name):
 
-    size, run = numbers_from_file_name(file_name, r'_\d+_', r'_\d+\.')
+    size, sample = numbers_from_file_name(file_name, r'_\d+_', r'_\d+\.')
 
     with open(rf"..\{input_dir}\{file_name}", 'r') as input_file:
         lines = input_file.read().splitlines()
@@ -64,7 +82,7 @@ def file_to_matrix(input_dir, file_name):
         row = to_bitfield(int(line), size)
         matrix.append(row)
 
-    return matrix, size, run
+    return matrix, size, sample
 
 
 def file_to_tensor(input_dir, file_name):
