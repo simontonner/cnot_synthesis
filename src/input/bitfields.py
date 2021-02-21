@@ -22,7 +22,7 @@ def to_bitfield(integer, field_len):
 
 def from_bitfield(bitfield):
 
-    return int("".join([str(bitfield[idx]) for idx in range(len(bitfield))]), 2)
+    return int(''.join([str(bitfield[idx]) for idx in range(len(bitfield))]), 2)
 
 
 def xor_bitfields(bitfield_1, bitfield_2):

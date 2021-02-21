@@ -58,23 +58,65 @@ def normal_sec_size_int_from_file_name(file_name, size_regex):
     return sec_size_int
 
 
-def file_to_circuit(input_dir, file_name):
+# def file_to_circuit(input_dir, file_name):
+#
+#     size, sample = numbers_from_file_name(file_name, r'_\d+_', r'_\d+\.')
+#
+#     with open(rf"..\{input_dir}\{file_name}", 'r') as input_file:
+#         lines = input_file.read().splitlines()
+#
+#     circuit = ast.literal_eval(lines[2])
+#
+#     return circuit, size, sample
+#
+#
+# def file_to_matrix(input_dir, file_name):
+#
+#     size, sample = numbers_from_file_name(file_name, r'_\d+_', r'_\d+\.')
+#
+#     with open(rf"..\{input_dir}\{file_name}", 'r') as input_file:
+#         lines = input_file.read().splitlines()
+#
+#     matrix = []
+#     for line in lines[2:]:
+#         row = to_bitfield(int(line), size)
+#         matrix.append(row)
+#
+#     return matrix, size, sample
+#
+#
+# def file_to_tensor(input_dir, file_name):
+#
+#     size, run = numbers_from_file_name(file_name, r'_\d+_', r'_\d+\.')
+#
+#     with open(rf"..\{input_dir}\{file_name}", 'r') as input_file:
+#         lines = input_file.read().splitlines()
+#
+#     format_string = f'#0{size + 2}b'
+#
+#     matrix = []
+#     for line in lines[2:]:
+#         row = [(int(bit) > 0.5) for bit in format(int(line), format_string)[2:]]
+#         matrix.append(row)
+#
+#     tensor = torch.Tensor(matrix, dtype=torch.bool)
+#
+#     return tensor, size, run
 
-    size, sample = numbers_from_file_name(file_name, r'_\d+_', r'_\d+\.')
 
-    with open(rf"..\{input_dir}\{file_name}", 'r') as input_file:
+def file_to_circuit(path):
+
+    with open(path, 'r') as input_file:
         lines = input_file.read().splitlines()
 
     circuit = ast.literal_eval(lines[2])
 
-    return circuit, size, sample
+    return circuit
 
 
-def file_to_matrix(input_dir, file_name):
+def file_to_matrix(size, path):
 
-    size, sample = numbers_from_file_name(file_name, r'_\d+_', r'_\d+\.')
-
-    with open(rf"..\{input_dir}\{file_name}", 'r') as input_file:
+    with open(path, 'r') as input_file:
         lines = input_file.read().splitlines()
 
     matrix = []
@@ -82,14 +124,12 @@ def file_to_matrix(input_dir, file_name):
         row = to_bitfield(int(line), size)
         matrix.append(row)
 
-    return matrix, size, sample
+    return matrix
 
 
-def file_to_tensor(input_dir, file_name):
+def file_to_tensor(size, path):
 
-    size, run = numbers_from_file_name(file_name, r'_\d+_', r'_\d+\.')
-
-    with open(rf"..\{input_dir}\{file_name}", 'r') as input_file:
+    with open(path, 'r') as input_file:
         lines = input_file.read().splitlines()
 
     format_string = f'#0{size + 2}b'
@@ -101,4 +141,4 @@ def file_to_tensor(input_dir, file_name):
 
     tensor = torch.Tensor(matrix, dtype=torch.bool)
 
-    return tensor, size, run
+    return tensor

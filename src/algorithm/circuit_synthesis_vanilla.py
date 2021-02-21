@@ -1,7 +1,6 @@
 #          REMARKS:
 #
 #          We start counting from zero, since this results in cleaner code.
-#          Only the indices for the qubits in the final circuit start from one.
 #
 #          diagonal-row                       ... the row with the same index as the column we are currently looking at
 #          reverse_circuit                    ... the order of the C-NOT gates goes from right to left
@@ -66,7 +65,7 @@ def synthesise_lower_triangular_circuit(mat, size, sec_size):
             if (sum(sub_row) > 0):
 
                 # convert sub-row to bitstring for dictionary key
-                sub_row_pattern = "".join(str(bit) for bit in sub_row)
+                sub_row_pattern = ''.join(str(bit) for bit in sub_row)
 
                 # if sub-row pattern not already in dictionary, add corresponding row index to it
                 if (sub_row_pattern not in patterns.keys()):
@@ -78,7 +77,7 @@ def synthesise_lower_triangular_circuit(mat, size, sec_size):
                         mat[row_idx][col_idx] ^= mat[patterns[sub_row_pattern]][col_idx]
 
                     # add row operation into circuit array as tuple
-                    reverse_circuit.append((patterns[sub_row_pattern] + 1, row_idx + 1))
+                    reverse_circuit.append((patterns[sub_row_pattern], row_idx))
 
         ### USE GAUSSIAN ELIMINATION FOR REMAINING ENTRIES IN COLUMN SECTION ###
 
@@ -99,14 +98,14 @@ def synthesise_lower_triangular_circuit(mat, size, sec_size):
                     if (diagonal_entry == 0):
                         for col_idx in range(size):
                             mat[sec_col_idx][col_idx] ^= mat[row_idx][col_idx]
-                        reverse_circuit.append((row_idx + 1, sec_col_idx + 1))
+                        reverse_circuit.append((row_idx, sec_col_idx))
                         diagonal_entry = 1
 
                     # continue by adding the diagonal-row onto each row containing a one (STEP C)
                     for col_idx in range(size):
                         mat[row_idx][col_idx] ^= mat[sec_col_idx][col_idx]
 
-                    reverse_circuit.append((sec_col_idx + 1, row_idx + 1))
+                    reverse_circuit.append((sec_col_idx, row_idx))
 
     return mat, reverse_circuit
 

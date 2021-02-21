@@ -92,4 +92,3 @@ In order to suppress the output of the command ```stdout``` and ```stderr``` are
 ```shell script
 !wsl tikztosvg -p tikz-cd -p xfrac /mnt/c/Users/simon/Desktop/tikz_test/example2.tikz > /dev/null 2>&1
 ```
-

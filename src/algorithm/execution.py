@@ -42,7 +42,7 @@ def check_and_run(circuit_synthesis, mat, sec_size):
                     print("Input matrix singular. Off diagonal entry contains a one.")
                     break
 
-    return mat, circuit, is_non_singular
+    return mat, circuit
 
 
 def check_and_benchmark(circuit_synthesis, mat, sec_size):
@@ -89,7 +89,7 @@ def check_and_benchmark(circuit_synthesis, mat, sec_size):
 
     process_time = final_cpu_times.user + final_cpu_times.system - initial_cpu_times.user - initial_cpu_times.system
 
-    return mat, circuit, is_non_singular, process_time, initial_rss, final_rss
+    return mat, circuit, process_time, initial_rss, final_rss
 
 
 def load_circuit_and_benchmark(circuit_synthesis, input_dir, input_file_name, sec_size):
@@ -103,7 +103,7 @@ def load_circuit_and_benchmark(circuit_synthesis, input_dir, input_file_name, se
     print(mat)
 
     print(f'Benchmarking sample {sample} ... matrix size: {size}, section size: {sec_size}')
-    _, circuit, _, process_time, initial_rss, final_rss = check_and_benchmark(circuit_synthesis, mat, sec_size)
+    _, circuit, process_time, initial_rss, final_rss = check_and_benchmark(circuit_synthesis, mat, sec_size)
 
     num_gates = len(circuit)
 
@@ -117,7 +117,7 @@ def load_matrix_and_benchmark(circuit_synthesis, input_dir, input_file_name, sec
     mat, size, sample = file_to_matrix(input_dir, input_file_name)
 
     print(f'Benchmarking sample {sample} ... matrix size: {size}, section size: {sec_size}')
-    _, circuit, _, process_time, initial_rss, final_rss = check_and_benchmark(circuit_synthesis, mat, sec_size)
+    _, circuit, process_time, initial_rss, final_rss = check_and_benchmark(circuit_synthesis, mat, sec_size)
 
     num_gates = len(circuit)
 

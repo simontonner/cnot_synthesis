@@ -7,16 +7,16 @@ def circuit_to_tikz_string(circuit, size):
     dot_radius = 0.1
     circle_radius = 0.2
 
-    tikz_string = '';
+    tikz_string = ''
 
     circuit_len = len(circuit) - 1
 
     line_start = drawing_offset - line_protrusion
     line_end = circuit_len + line_protrusion
 
-    for qbit in range(1, size + 1):
+    for qbit in range(size):
 
-        tikz_string = f"{tikz_string}\draw[thick] ({line_start},{-qbit}) node[anchor=east] {{Input {qbit}}} -- ({line_end},{-qbit}) node[anchor=west] {{Output {qbit}}};\n"
+        tikz_string = f"{tikz_string}\draw[thick] ({line_start},{-qbit}) node[anchor=east] {{Input {qbit + 1}}} -- ({line_end},{-qbit}) node[anchor=west] {{Output {qbit + 1}}};\n"
 
     gate_position = drawing_offset
     for gate in circuit:
@@ -37,23 +37,13 @@ def circuit_to_tikz_string(circuit, size):
     return tikz_string
 
 
-def circuit_to_tikz_file(size, circuit, file_name):
+def circuit_to_tikz_file(circuit, size, path):
 
-    tikz_picture_string = f"\\begin{{tikzpicture}}\n{circuit_to_tikz_string(size, circuit)}\\end{{tikzpicture}}\n"
+    tikz_picture_string = f'\\begin{{tikzpicture}}\n{circuit_to_tikz_string(circuit, size)}\\end{{tikzpicture}}\n'
 
-    tikz_file_name = file_name + ".tikz"
-
-    file = open(tikz_file_name, "w")
+    file = open(path, 'w')
     file.write(tikz_picture_string)
     file.close()
 
     return tikz_picture_string
-
-#size = 6
-#circuit = [(5,4),(2,1),(4,2),(6,3),(5,3),(5,4),(6,5),(3,4),(4,3),(4,6),(3,5),(2,3),(1,2),(1,5),(1,4)]
-
-#tikz = circuit_to_tikz_string(circuit, size)
-
-#print(tikz)
-
 
