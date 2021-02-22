@@ -111,11 +111,11 @@ def load_circuit_and_benchmark(input_dir, input_file_name, sec_size):
     return size, sample, sec_size, num_gates, process_time, initial_rss, final_rss
 
 
-def load_matrix_and_benchmark(input_dir, input_file_name, sec_size):
+def load_matrix_and_benchmark(size, sec_size, sample, path):
 
-    print(f'Loading matrix from file {input_file_name} ...')
+    print(f'Loading matrix from {path} ...')
 
-    mat, size, sample = file_to_matrix(input_dir, input_file_name)
+    mat = file_to_matrix(path)
 
     print(f'Benchmarking sample {sample} ... matrix size: {size}, section size: {sec_size}')
     _, circuit, _, process_time, initial_rss, final_rss = check_and_benchmark(mat, sec_size)

@@ -112,7 +112,7 @@ def load_matrix_and_benchmark(circuit_synthesis, size, sec_size, sample, path):
 
     print(f'Loading matrix from {path} ...')
 
-    mat, size, sample = file_to_matrix(size, path)
+    mat = file_to_matrix(size, path)
 
     print(f'Benchmarking sample {sample} ... matrix size: {size}, section size: {sec_size}')
     _, circuit, process_time, initial_rss, final_rss = check_and_benchmark(circuit_synthesis, mat, sec_size)

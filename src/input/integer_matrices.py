@@ -26,6 +26,6 @@ def rand_int_matrix(size, num_gates):
 
     circuit = rand_circuit(size, num_gates)
 
-    matrix = circuit_to_int_matrix(size, circuit)
+    matrix = circuit_to_int_matrix(circuit, size)
 
     return matrix
