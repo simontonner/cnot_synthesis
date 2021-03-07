@@ -127,7 +127,7 @@ def file_to_matrix(size, path):
     return matrix
 
 
-def file_to_tensor(size, path):
+def file_to_tensor(size, path, device):
 
     with open(path, 'r') as input_file:
         lines = input_file.read().splitlines()
@@ -139,6 +139,20 @@ def file_to_tensor(size, path):
         row = [(int(bit) > 0.5) for bit in format(int(line), format_string)[2:]]
         matrix.append(row)
 
-    tensor = torch.Tensor(matrix, dtype=torch.bool)
+    ##tensor = torch.Tensor(matrix, dtype=torch.bool, device=device)
+    tensor = torch.BoolTensor(matrix).to(device)
 
     return tensor
+
+
+##TESTS
+
+#torch_device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+
+#matrix = [[1,0],[0,1]]
+
+#tensor = torch.BoolTensor(matrix).to(torch_device)
+
+#print(tensor.device.type)
+
