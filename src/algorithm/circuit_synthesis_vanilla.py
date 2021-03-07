@@ -59,7 +59,7 @@ def synthesise_lower_triangular_circuit(mat, size, sec_size):
         for row_idx in range(first_sec_idx, size):
 
             # get sub-row
-            sub_row = mat[row_idx][first_sec_idx : last_sec_idx + 1]
+            sub_row = mat[row_idx][first_sec_idx:last_sec_idx + 1]
 
             # check if sub-row contains ones
             if (sum(sub_row) > 0):

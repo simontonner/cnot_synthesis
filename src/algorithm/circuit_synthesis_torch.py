@@ -35,7 +35,7 @@ def synthesise_lower_triangular_circuit(tensor, size, sec_size):
 
         for row_idx in range(first_sec_idx, size):
 
-            sub_row = tensor[row_idx][first_sec_idx : last_sec_idx + 1]
+            sub_row = tensor[row_idx][first_sec_idx:last_sec_idx + 1]
 
             if (sum(sub_row) > 0):
 
