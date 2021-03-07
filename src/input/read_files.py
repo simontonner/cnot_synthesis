@@ -58,52 +58,6 @@ def normal_sec_size_int_from_file_name(file_name, size_regex):
     return sec_size_int
 
 
-# def file_to_circuit(input_dir, file_name):
-#
-#     size, sample = numbers_from_file_name(file_name, r'_\d+_', r'_\d+\.')
-#
-#     with open(rf"..\{input_dir}\{file_name}", 'r') as input_file:
-#         lines = input_file.read().splitlines()
-#
-#     circuit = ast.literal_eval(lines[2])
-#
-#     return circuit, size, sample
-#
-#
-# def file_to_matrix(input_dir, file_name):
-#
-#     size, sample = numbers_from_file_name(file_name, r'_\d+_', r'_\d+\.')
-#
-#     with open(rf"..\{input_dir}\{file_name}", 'r') as input_file:
-#         lines = input_file.read().splitlines()
-#
-#     matrix = []
-#     for line in lines[2:]:
-#         row = to_bitfield(int(line), size)
-#         matrix.append(row)
-#
-#     return matrix, size, sample
-#
-#
-# def file_to_tensor(input_dir, file_name):
-#
-#     size, run = numbers_from_file_name(file_name, r'_\d+_', r'_\d+\.')
-#
-#     with open(rf"..\{input_dir}\{file_name}", 'r') as input_file:
-#         lines = input_file.read().splitlines()
-#
-#     format_string = f'#0{size + 2}b'
-#
-#     matrix = []
-#     for line in lines[2:]:
-#         row = [(int(bit) > 0.5) for bit in format(int(line), format_string)[2:]]
-#         matrix.append(row)
-#
-#     tensor = torch.Tensor(matrix, dtype=torch.bool)
-#
-#     return tensor, size, run
-
-
 def file_to_circuit(path):
 
     with open(path, 'r') as input_file:
@@ -139,20 +93,7 @@ def file_to_tensor(size, path, device):
         row = [(int(bit) > 0.5) for bit in format(int(line), format_string)[2:]]
         matrix.append(row)
 
-    ##tensor = torch.Tensor(matrix, dtype=torch.bool, device=device)
     tensor = torch.BoolTensor(matrix).to(device)
 
     return tensor
-
-
-##TESTS
-
-#torch_device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-
-#matrix = [[1,0],[0,1]]
-
-#tensor = torch.BoolTensor(matrix).to(torch_device)
-
-#print(tensor.device.type)
 
