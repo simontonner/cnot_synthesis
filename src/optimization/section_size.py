@@ -40,7 +40,7 @@ def optimal_section_size(size, alpha):
     return min_alpha * np.log2(size)
 
 
-# returns values where the provided y values skip over a threshold for the first time of a graph
+# returns values where the provided y values skip over a threshold for the first time
 def threshold_skips(offset, step_size, abscissas, ordinates):
 
     if len(abscissas) != len(ordinates):
