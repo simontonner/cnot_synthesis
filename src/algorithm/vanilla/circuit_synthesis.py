@@ -18,7 +18,8 @@ def synthesise_circuit(mat, size, sec_size):
     lower_triangular_circuit = lower_triangular_reverse_circuit[::-1]
 
     # transpose matrix
-    mat = [[mat[row_idx][col_idx] for row_idx in range(len(mat))] for col_idx in range(len(mat[0]))]
+    mat = [[mat[row_idx][col_idx] for row_idx in range(len(mat))]
+           for col_idx in range(len(mat[0]))]
 
     # synthesise part from upper triangular matrix
     mat, upper_triangular_switched_circuit = synthesise_lower_triangular_circuit(mat, size, sec_size)
@@ -77,7 +78,8 @@ def synthesise_lower_triangular_circuit(mat, size, sec_size):
                         mat[row_idx][col_idx] ^= mat[patterns[sub_row_pattern]][col_idx]
 
                     # add row operation into circuit array as tuple
-                    reverse_circuit.append((patterns[sub_row_pattern], row_idx))
+                    reverse_circuit\
+                        .append((patterns[sub_row_pattern], row_idx))
 
         ### USE GAUSSIAN ELIMINATION FOR REMAINING ENTRIES IN COLUMN SECTION ###
 
